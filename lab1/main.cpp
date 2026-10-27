@@ -6,11 +6,12 @@ using namespace std;
 class Route
 {
 private:
-	string routeNumber;
-	string startPoint;
-	string endPoint;
+	string routeNumber; // номер маршрута
+	string startPoint;	// начальная остановка
+	string endPoint;	// конечная остановка
 
 public:
+	// Инициализация членов класса
 	Route(const string &num, const string &start, const string &end) : routeNumber(num), startPoint(start), endPoint(end)
 	{
 		cout << "[Создан] маршрут №" << routeNumber << " (" << startPoint << ' - ' << endPoint << ")" << endl;
@@ -21,6 +22,7 @@ public:
 		cout << "[Удалён] маршрут №" << routeNumber << endl;
 	};
 
+	// Возвращение строкового описания маршрута
 	string getInfo() const
 	{
 		return "№" + routeNumber + " (" + startPoint + " - " + endPoint + ")";
@@ -30,23 +32,24 @@ public:
 class Bus
 {
 private:
-	string model;
-	string licensePlate;
-	Route *route; // Указатель на маршрут (Агрегация)
+	string model;		 // модель автобуса
+	string licensePlate; // госномер
+	Route *route;		 // указатель на маршрут (Агрегация)
 
-	static int busCount;
+	static int busCount; // счёт автобусов
 
 public:
+	// Инициализация членов класса
 	Bus(const string &mod, const string &plate, Route *r = nullptr)
 		: model(mod), licensePlate(plate), route(r)
 	{
-		busCount++;
+		busCount++; // увеличиваем счётчик при создании
 		cout << "[Создан] Автобус: " << model << " [" << licensePlate << "]" << endl;
 	}
 
 	~Bus()
 	{
-		busCount--;
+		busCount--; // уменьшаем счётчик при удалении
 		cout << "[Удален] Автобус: " << model << " [" << licensePlate << "]" << endl;
 	}
 
@@ -56,6 +59,7 @@ public:
 		route = r;
 	}
 
+	// Печать информации
 	void print() const
 	{
 		cout << "Автобус: " << model << " [" << licensePlate << "], ";
@@ -82,8 +86,8 @@ int Bus::busCount = 0;
 class Depot
 {
 private:
-	string name;
-	vector<Bus *> buses;
+	string name;		 // название депо
+	vector<Bus *> buses; // указатель на автобус
 
 	Depot(const string &n) : name(n)
 	{
@@ -107,6 +111,7 @@ public:
 		return instance;
 	}
 
+	// Добавление автобуса с проверкой на nullptr
 	void addBus(Bus *bus)
 	{
 		// Проверка на nullptr
@@ -117,6 +122,7 @@ public:
 		}
 	}
 
+	// Печать всех автобусов депо
 	void print() const
 	{
 		cout << "\n--- Депо \"" << name << "\" содержит " << buses.size() << " автобус(ов) ---" << endl;
