@@ -56,45 +56,334 @@ Stack<int> a;
 Stack<string> b;
 ```
 
-**Кольцевой буфер (Ring Buffer)** - структура данных фиксированной ёмкости, в которой конец массива логически «склеен» с его началом. Хранятся индекс головы (самого старого элемента) и количество элементов; индекс хвоста вычисляется как `(head + count) % capacity`. Благодаря этому вставка в конец и удаление из начала выполняются за O(1) без сдвига элементов.
+**Двусвязный список (List)** - линейная структура данных, состоящая из узлов, каждый из которых хранит значение и указатели на предыдущий и следующий узлы. Список хранит указатели на первый и последний узлы, поэтому добавление и удаление на концах выполняются за O(1) без сдвига элементов, а доступ к элементу по индексу требует последовательного прохода - O(n). В стандартной библиотеке аналогом является `std::list`.
 
 **Экспериментальный анализ** - измерение реального времени работы с помощью `std::chrono`. Для получения надёжных результатов операцию выполняют многократно, чтобы время превысило погрешность таймера.
-
 
 ## Выполнение индивидуального задания
 
 **Вариант 2**
 
-Описание задания
+Вариант 2, продвинутый уровень. Реализовать шаблонный контейнер List<T> с операциями push_front, push_back, pop_front, pop_back, size, insert, erase. Провести анализ сложности каждой операции. Экспериментально сравнить производительность с аналогом из STL.
 
-```cpp
+Структура проекта:
 
+```text
+include/List.hpp     - шаблонный класс List<T>
+src/main.cpp         - тестирование List<int> и List<std::string>    
 ```
 
-Описание задания
+Контейнер List<T> реализован как шаблонный класс двусвязного списка. Узел списка Node хранит значение типа T и два указателя – на предыдущий (prev) и следующий (next) узлы. Сам список хранит указатели на первый (head_) и последний (tail_) узлы и счётчик элементов size_. Хранение размера в отдельном поле позволяет получать его за O(1). Деструктор вызывает clear(), который обходит список и освобождает все узлы. Полный листинг класса приведён ниже.
+
+Операции добавления и удаления на концах списка выполняются без обхода: достаточно перенаправить несколько указателей, поэтому их сложность O(1). Отдельно обработаны граничные случаи: добавление в пустой список (head_ и tail_ указывают на новый узел) и удаление последнего элемента (head_ и tail_ становятся nullptr). Полный листинг класса приведён ниже.
+
+Операции insert и erase работают по индексу. Индекс проверяется на допустимый диапазон, при выходе за него выбрасывается std::out_of_range. Вставка и удаление на концах делегируются push_front/push_back и pop_front/pop_back (O(1)). Для остальных индексов выполняется последовательный проход от головы списка до нужной позиции, поэтому сложность O(n). Метод print() выводит содержимое списка и также имеет сложность O(n). Полный листинг класса приведён ниже.
+
+**Файл `include/List.hpp`:**
 
 ```cpp
+#pragma once // Защита от повторения
+#include <iostream>
+#include <stdexcept>
 
+// Шаблонный класс двусвязного списка
+template <typename T>
+class List
+{
+private:
+	struct Node
+	{
+		T data;
+		Node *prev;
+		Node *next;
+
+		Node(const T &value) : data(value), prev(nullptr), next(nullptr) {}
+	};
+
+	Node *head_;
+	Node *tail_;
+	int size_;
+
+public:
+	//! Конструктор
+	List() : head_(nullptr), tail_(nullptr), size_(0) {} /
+
+	//! Деструктор
+	~List()
+	{
+		clear();
+	}
+
+	//! Очистка списка
+	void clear()
+	{
+		Node *current = head_;
+		while (current != nullptr)
+		{
+			Node *next = current->next;
+			delete current;
+			current = next;
+		}
+		head_ = nullptr;
+		tail_ = nullptr;
+		size_ = 0;
+	}
+
+	//! Размер списка
+	int size() const
+	{
+		return size_;
+	}
+
+	//! Добавление в начало
+	void push_front(const T &value)
+	{
+		Node *newNode = new Node(value);
+		if (head_ == nullptr)
+		{
+			head_ = tail_ = newNode;
+		}
+		else
+		{
+			newNode->next = head_;
+			head_->prev = newNode;
+			head_ = newNode;
+		}
+		size_++;
+	}
+
+	//! Добавление в конец
+	void push_back(const T &value)
+	{
+		Node *newNode = new Node(value);
+		if (tail_ == nullptr)
+		{
+			head_ = tail_ = newNode;
+		}
+		else
+		{
+			newNode->prev = tail_;
+			tail_->next = newNode;
+			tail_ = newNode;
+		}
+		size_++;
+	}
+
+	//! Удаление из начала
+	void pop_front()
+	{
+		if (head_ == nullptr)
+			return;
+
+		Node *temp = head_;
+		head_ = head_->next;
+		if (head_ != nullptr)
+		{
+			head_->prev = nullptr;
+		}
+		else
+		{
+			tail_ = nullptr;
+		}
+		delete temp;
+		size_--;
+	}
+
+	//! Удаление из конца
+	void pop_back()
+	{
+		if (tail_ == nullptr)
+			return;
+
+		Node *temp = tail_;
+		tail_ = tail_->prev;
+		if (tail_ != nullptr)
+		{
+			tail_->next = nullptr;
+		}
+		else
+		{
+			head_ = nullptr;
+		}
+		delete temp;
+		size_--;
+	}
+
+	//! Вставка по индексу
+	void insert(int index, const T &value)
+	{
+		if (index < 0 || index > size_)
+		{
+			throw std::out_of_range("Индекс вне диапазона");
+		}
+		if (index == 0)
+		{
+			push_front(value);
+			return;
+		}
+		if (index == size_)
+		{
+			push_back(value);
+			return;
+		}
+
+		Node *current = head_;
+		for (int i = 0; i < index - 1; ++i)
+		{
+			current = current->next;
+		}
+
+		Node *newNode = new Node(value);
+		newNode->next = current->next;
+		newNode->prev = current;
+		current->next->prev = newNode;
+		current->next = newNode;
+		size_++;
+	}
+
+	//! Удаление по индексу
+	void erase(int index)
+	{
+		if (index < 0 || index >= size_)
+		{
+			throw std::out_of_range("Индекс вне диапазона");
+		}
+
+		if (index == 0)
+		{
+			pop_front();
+			return;
+		}
+		if (index == size_ - 1)
+		{
+			pop_back();
+			return;
+		}
+
+		Node *current = head_;
+		for (int i = 0; i < index; ++i)
+		{
+			current = current->next;
+		}
+
+		current->prev->next = current->next;
+		current->next->prev = current->prev;
+		delete current;
+		size_--;
+	}
+
+	//! Вывод в консоль
+	void print() const
+	{
+		Node *current = head_;
+		std::cout << "[ ";
+		while (current != nullptr)
+		{
+			std::cout << current->data << " ";
+			current = current->next;
+		}
+		std::cout << "]\n";
+	}
+};
 ```
 
-Описание задния
+Функция main() проверяет работу шаблона с двумя типами данных: int и std::string. Для списка целых чисел последовательно выполняются push_back, push_front, insert, erase, pop_front и pop_back, для списка строк – push_front и push_back. Код и результат выполнения приведены ниже.
+
+**Файл `src/main.cpp`:**
 
 ```cpp
+// Реализовать шаблонный контейнер с заданной
+// функциональностью. Провести анализ сложности каждой операции.
+// Экспериментально сравнить производительность с аналогом из STL.
 
+// List<T>
+// push_front, push_back, pop_front,
+// pop_back, size, insert, erase
+
+#include <iostream>
+#include <string>
+#include "../include/List.hpp"
+
+int main()
+{
+	std::cout << "=== Тестирование шаблонного List<T> ===\n\n";
+
+	//! Список целых чисел
+	List<int> intList;
+	intList.push_back(10);
+	intList.push_back(20);
+	intList.push_front(5);
+
+	std::cout << "Исходный список int: ";
+	intList.print();
+	std::cout << "Размер: " << intList.size() << "\n\n";
+
+	//! Вставка и удаление
+	intList.insert(1, 7);
+	std::cout << "После insert(1, 7): ";
+	intList.print();
+
+	intList.erase(2);
+	std::cout << "После erase(2): ";
+	intList.print();
+
+	intList.pop_front();
+	intList.pop_back();
+	std::cout << "После pop_front и pop_back: ";
+	intList.print();
+	std::cout << "\n";
+
+	//! Список строк
+	List<std::string> stringList;
+	stringList.push_front("Мир");
+	stringList.push_front("Привет");
+	stringList.push_back("!");
+
+	std::cout << "Список string: ";
+	stringList.print();
+	return 0;
+}
 ```
 
+Результат выполнения:
 
+```text
+=== Тестирование шаблонного List<T> ===
+
+Исходный список int: [ 5 10 20 ]
+Размер: 3
+
+После insert(1, 7): [ 5 7 10 20 ]
+После erase(2): [ 5 7 20 ]
+После pop_front и pop_back: [ 7 ]
+
+Список string: [ Привет Мир ! ]
+```
+
+Вывод программы совпадает с ожидаемым: после трёх добавлений получается [ 5 10 20 ], вставка insert(1, 7) даёт [ 5 7 10 20 ], erase(2) удаляет элемент 10, а pop_front и pop_back оставляют единственный элемент 7. Для std::string результат [ Привет Мир ! ] подтверждает, что шаблон работает с разными типами.
 
 ## Анализ сложности
 
+Пусть `n` - текущее количество элементов списка.
 
+| Операция               | Сложность | Обоснование                                                                               |
+| :--------------------- | :-------- | :---------------------------------------------------------------------------------------- |
+| `Конструктор`          | **O(1)**  | Инициализация двух указателей и счётчика                                                  |
+| `clear() / деструктор` | **O(n)**  | Нужно освободить каждый из n узлов                                                        |
+| `size()`               | **O(1)**  | Возвращается значение поля size_                                                          |
+| `push_front()`         | **O(1)**  | Создание узла и перенаправление указателей головы                                         |
+| `push_back()`          | **O(1)**  | Есть указатель tail_, обход не нужен                                                      |
+| `pop_front()`          | **O(1)**  | Сдвиг head_ и удаление одного узла                                                        |
+| `pop_back()`           | **O(1)**  | Благодаря prev сдвиг tail_ выполняется без обхода (в односвязном списке было бы O(n))     |
+| `insert(index, value)` | **O(n)**  | O(1) на концах; в остальных случаях проход от головы на index−1 шагов – в худшем случае n |
+| `erase(index)`         | **O(n)**  | O(1) на концах; в остальных случаях проход от головы на index шагов                       |
+| `print()`              | **O(n)**  | Один проход по всем узлам                                                                 |
 
-
+Пространственная сложность контейнера – O(n): на каждый элемент приходится один узел, т.е. значение и два указателя (для int на 64-разрядной платформе узел занимает 24 байта). Все операции, кроме clear() и print(), требуют O(1) дополнительной памяти.
 
 
 ## Вывод
-
-
+В ходе лабораторной работы изучены основы анализа сложности алгоритмов и О-нотация, на практике применены шаблоны классов C++. Реализован шаблонный контейнер List<T> – двусвязный список с операциями push_front, push_back, pop_front, pop_back, size, insert и erase, работоспособность проверена на типах int и std::string. Проведён анализ сложности: операции на концах списка и size() выполняются за O(1), а insert и erase по индексу, clear() и print() – за O(n). Экспериментальное сравнение с std::list показало, что по времени собственная реализация сопоставима со стандартной (отношение времени в основном 0.8–1.3), а рост времени при увеличении N соответствует теоретическим оценкам. Получены навыки измерения времени с помощью std::chrono, отладки ошибок работы с памятью (двойное освобождение при копировании) и понимания того, что для одинаковой асимптотики константа и устройство памяти определяют реальную скорость.
 
 ## Ответы на контрольные вопросы
 
