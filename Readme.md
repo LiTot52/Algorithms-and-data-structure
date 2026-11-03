@@ -8,22 +8,22 @@
 ## Список лабораторных работ
 
 
-| №   | Тема                                              | Вариант / уровень | Отчёт                                          | Статус   |
-| --- | ------------------------------------------------- | ----------------- | ---------------------------------------------- | -------- |
-| 1   | Композиция и агрегация классов. Статические члены | 11 / продвинутый  | [Readme-for-1lb.md](lab1/Readme-for-1lb.md)    | готово   |
-| 2   | Анализ сложности алгоритмов. Шаблоны классов      | 2 / продвинутый   | [Readme-for-2lb.md](lab2/Readme-for-2lb.md)    | в работе |
-| 3   | —                                                 | —                 | [Readme-for-3lb.md](lab3/Readme-for-3lb.md)    | в работе |
-| 4   | —                                                 | —                 | [Readme-for-4lb.md](lab4/Readme-for-4lb.md)    | в работе |
-| 5   | —                                                 | —                 | [Readme-for-5lb.md](lab5/Readme-for-5lb.md)    | в работе |
-| 6   | —                                                 | —                 | [Readme-for-6lb.md](lab6/Readme-for-6lb.md)    | в работе |
-| 7   | —                                                 | —                 | [Readme-for-7lb.md](lab7/Readme-for-7lb.md)    | в работе |
-| 8   | —                                                 | —                 | [Readme-for-8lb.md](lab8/Readme-for-8lb.md)    | в работе |
-| 9   | —                                                 | —                 | [Readme-for-9lb.md](lab9/Readme-for-9lb.md)    | в работе |
-| 10  | —                                                 | —                 | [Readme-for-10lb.md](lab10/Readme-for-10lb.md) | в работе |
-| 11  | —                                                 | —                 | [Readme-for-11lb.md](lab11/Readme-for-11lb.md) | в работе |
-| 12  | —                                                 | —                 | [Readme-for-12lb.md](lab12/Readme-for-12lb.md) | в работе |
-| 13  | —                                                 | —                 | [](lab13/)                                     | в работе |
-| 14  | —                                                 | —                 | [](lab14/)                                     | в работе |
-| 15  | —                                                 | —                 | [](lab15/)                                     | в работе |
-| 16  | —                                                 | —                 | [](lab16/)                                     | в работе |
+| №   | Тема                                                      | Вариант / уровень | Отчёт                                          | Статус   |
+| --- | --------------------------------------------------------- | ----------------- | ---------------------------------------------- | -------- |
+| 1   | Композиция и агрегация классов. Статические члены         | 11 / продвинутый  | [Readme-for-1lb.md](lab1/Readme-for-1lb.md)    | готово   |
+| 2   | Анализ сложности алгоритмов. Шаблоны классов              | 2 / продвинутый   | [Readme-for-2lb.md](lab2/Readme-for-2lb.md)    | готово   |
+| 3   | Шаблонный класс Vector<T>, управление памятью и итераторы | 2 / продвинутый   | [Readme-for-3lb.md](lab3/Readme-for-3lb.md)    | в работе |
+| 4   | —                                                         | —                 | [Readme-for-4lb.md](lab4/Readme-for-4lb.md)    | в работе |
+| 5   | —                                                         | —                 | [Readme-for-5lb.md](lab5/Readme-for-5lb.md)    | в работе |
+| 6   | —                                                         | —                 | [Readme-for-6lb.md](lab6/Readme-for-6lb.md)    | в работе |
+| 7   | —                                                         | —                 | [Readme-for-7lb.md](lab7/Readme-for-7lb.md)    | в работе |
+| 8   | —                                                         | —                 | [Readme-for-8lb.md](lab8/Readme-for-8lb.md)    | в работе |
+| 9   | —                                                         | —                 | [Readme-for-9lb.md](lab9/Readme-for-9lb.md)    | в работе |
+| 10  | —                                                         | —                 | [Readme-for-10lb.md](lab10/Readme-for-10lb.md) | в работе |
+| 11  | —                                                         | —                 | [Readme-for-11lb.md](lab11/Readme-for-11lb.md) | в работе |
+| 12  | —                                                         | —                 | [Readme-for-12lb.md](lab12/Readme-for-12lb.md) | в работе |
+| 13  | —                                                         | —                 | [](lab13/)                                     | в работе |
+| 14  | —                                                         | —                 | [](lab14/)                                     | в работе |
+| 15  | —                                                         | —                 | [](lab15/)                                     | в работе |
+| 16  | —                                                         | —                 | [](lab16/)                                     | в работе |
 ```
