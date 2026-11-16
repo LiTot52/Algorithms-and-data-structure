@@ -7,8 +7,8 @@
 // 5. Показать работу print() и printReverse() (для двусвязного).
 
 #include <iostream>
-#include "singly_linked_list.hpp"
-#include "doubly_linked_list.hpp"
+#include "../include/singly_linked_list.hpp"
+#include "../include/doubly_linked_list.hpp"
 
 int main()
 {

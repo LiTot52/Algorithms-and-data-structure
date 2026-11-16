@@ -5,7 +5,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <utility>
-#include "vector.hpp"
+#include "../include/Vector.hpp"
 
 void printVector(const Vector<int> &v, const char *name)
 {
