@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 #include <utility>
-#include "structures.hpp"
+#include "../include/structures.hpp"
 
 //! Проверка: печатает результат и прерывает программу при ошибке
 static void check(const std::string &name, bool cond)

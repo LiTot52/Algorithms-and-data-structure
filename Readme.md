@@ -13,8 +13,8 @@
 | 1   | Композиция и агрегация классов. Статические члены         | 11 / продвинутый  | [Readme-for-1lb.md](lab1/Readme-for-1lb.md)    | готово   |
 | 2   | Анализ сложности алгоритмов. Шаблоны классов              | 2 / продвинутый   | [Readme-for-2lb.md](lab2/Readme-for-2lb.md)    | готово   |
 | 3   | Шаблонный класс Vector<T>, управление памятью и итераторы | 2 / продвинутый   | [Readme-for-3lb.md](lab3/Readme-for-3lb.md)    | готово   |
-| 4   | —                                                         | —                 | [Readme-for-4lb.md](lab4/Readme-for-4lb.md)    | в работе |
-| 5   | —                                                         | —                 | [Readme-for-5lb.md](lab5/Readme-for-5lb.md)    | в работе |
+| 4   | Односвязный и двусвязный списки                           | 2 / продвинутый   | [Readme-for-4lb.md](lab4/Readme-for-4lb.md)    | готово   |
+| 5   | Стек, очередь, дек, приоритетная очередь                  | 2 / продвинутый   | [Readme-for-5lb.md](lab5/Readme-for-5lb.md)    | готово   |
 | 6   | —                                                         | —                 | [Readme-for-6lb.md](lab6/Readme-for-6lb.md)    | в работе |
 | 7   | —                                                         | —                 | [Readme-for-7lb.md](lab7/Readme-for-7lb.md)    | в работе |
 | 8   | —                                                         | —                 | [Readme-for-8lb.md](lab8/Readme-for-8lb.md)    | в работе |

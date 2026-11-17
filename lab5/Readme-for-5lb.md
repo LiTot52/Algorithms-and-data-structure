@@ -228,8 +228,8 @@ class Deque
 	struct Node
 	{
 		T data;
-		Node *prev; // сосед слева
-		Node *next; // сосед справа
+		Node *prev; 
+		Node *next;
 		Node(const T &v) : data(v), prev(nullptr), next(nullptr) {}
 	};
  
